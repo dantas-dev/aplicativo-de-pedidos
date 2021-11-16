@@ -1,9 +1,10 @@
 package com.dantas.aplicativodepedidos.controller;
 
 import com.dantas.aplicativodepedidos.model.Categoria;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.dantas.aplicativodepedidos.services.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +13,12 @@ import java.util.List;
 @RequestMapping(value = "/categorias")
 public class CategoriaController {
 
-    @GetMapping
-    public List<Categoria> listar() {
-        Categoria categoria1 = new Categoria(1, "Informática");
-        Categoria categoria2 = new Categoria(2, "Escritório");
+    @Autowired
+    private CategoriaService categoriaService;
 
-        List<Categoria> lista = new ArrayList<>();
-        lista.add(categoria1);
-        lista.add(categoria2);
-
-        return lista;
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> findCategoria(@PathVariable Integer id) {
+        Categoria categoria = categoriaService.findCategoria(id);
+        return ResponseEntity.ok().body(categoria);
     }
 }
